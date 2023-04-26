@@ -62,6 +62,11 @@ var displayPlanner = function() {
             .addClass("col-2 btn btn-info save-btn")
             .attr("id", "btn-" + i);
 
+        var iconEl = $("<i>")
+            .addClass("bi bi-save");
+
+        saveBtn.append(iconEl);
+
         // append columns to row
         hourRow.append(hourTitle, hourTasks, saveBtn);
         // append row to container
