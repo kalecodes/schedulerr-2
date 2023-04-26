@@ -5,9 +5,21 @@ var today = moment().format("dddd, MMMM Do");
 // display current date to header
 $("#currentDay").text(today);
 
-// use setInterval to periodically update style of textareas
+var auditTime = function(textareaEl) {
+    var time = $(textareaEl).attr("id");
+    var currentTime = moment().hour();
+    $(textareaEl).removeClass();
 
-
+    if (time < currentTime) {
+        $(textareaEl).addClass("col-8 form-control past");
+    }
+    else if (time == currentTime) {
+        $(textareaEl).addClass("col-8 form-control present");
+    }
+    else if (time > currentTime) {
+        $(textareaEl).addClass("col-8 form-control future");
+    }
+};
 
 // save tasks to localStorage
 var saveSchedule = function() {
@@ -34,7 +46,9 @@ var loadTasks = function() {
     // 3 columns per row (time, textarea, save button)
 var displayPlanner = function() {
     for (i = 6; i < 23; i++) {
-        var hourRow =  $("<div>").addClass("row");
+        var hourRow =  $("<div>")
+            .addClass("row")
+            .attr("id", "row-" + i);
 
         var hourTitle = $("<div>")
             .addClass("col-2 badge badge-dark pt-4")
@@ -52,12 +66,21 @@ var displayPlanner = function() {
         hourRow.append(hourTitle, hourTasks, saveBtn);
         // append row to container
         $(".container").append(hourRow);
+
+        auditTime(hourTasks);
     }
 
     loadTasks();
 };
 
 displayPlanner();
+
+// use setInterval to periodically update style of textareas
+setInterval(function(){
+    $("textarea").each(function(index,el) {
+        auditTime(el);
+    })
+}, (1000 * 60) * 5);
 
 // event listener for save buttons
 $(".row").on("click", "button", function() {
@@ -77,5 +100,3 @@ $(".row").on("click", "button", function() {
 
     saveSchedule();
 });
-
-// loadTasks();
