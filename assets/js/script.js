@@ -45,7 +45,7 @@ var loadTasks = function() {
     // assign id attribute to time
     // 3 columns per row (time, textarea, save button)
 var displayPlanner = function() {
-    for (i = 6; i < 23; i++) {
+    for (i = 9; i < 18; i++) {
         var hourRow =  $("<div>")
             .addClass("row")
             .attr("id", "row-" + i);
